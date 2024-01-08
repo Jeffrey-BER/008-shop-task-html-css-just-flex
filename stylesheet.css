@@ -22,26 +22,32 @@ html {
   color: var(--color-text);
 }
 
-* {
-  _margin: 0;
-  _padding: 0;
-  box-sizing: border-box; /**/
-}
-
 body {
   background-color: var(--background-color-body);
-  box-sizing: border-box;
-  font-size: 1.2rem;
+  font-size: 1.28rem;
 }
 
 /*Items-container*/
 
+.items-container {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /*Centers all Items together in the body wich is the paraent element*/
+}
+/* the > symbol mena that JUST the direct childs of items-container become the settings 
+otherwise all other children (secound) of items-container would get this setting*/
+.items-container > :nth-child(2) {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
 /*item-container---------------------------------------------------------------*/
 .item-container {
-  display: flex;
+  display: flex; /*Even if that would be not there it would look the same. But just because the max width is sett to 360. so all the follwing items are displayed downwords*/
   flex-direction: column;
   max-width: 360px;
-  margin: auto;
   background-color: var(--background-color-item-container);
   border-radius: 20px;
 }
@@ -51,26 +57,16 @@ body {
 .item-img-container {
   display: flex;
   flex-direction: column;
-  position: relative;
-  /* border: 5px solid rgb(25, 255, 33); */
-  border-radius: 20px;
-}
-
-/*.item-img-overlay-container {
-  _display: flex;
-  position: relative;
-  border: 5px solid rgb(25, 255, 33);
-}*/
-
-.item-img-overlay-container {
+  position: relative; /*an element’s original position remains in the flow of the document, 
+  just like the static value. But now left/right/top/bottom/z-index will work. The positional 
+  properties “nudge” the element from the original position in that direction.
+  It has to be set so we can overlay a fader*/
   border-radius: 20px;
 }
 
 .item-img {
-  max-width: 100%; /* Scale down the image to fit its container -> item-img-wraper */
+  max-width: 100%; /* Scale down the image to fit its container -> item-img-overlay-container" */
   height: auto; /* Maintain the aspect ratio */
-  /* border: 5px solid rgb(251, 25, 255); */
-  _box-sizing: border-box; /* Include border in total width and height */
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
 }
@@ -79,21 +75,25 @@ body {
   z-index: 1;
   height: 100%;
   width: 100%;
-  position: absolute;
-  top: 0;
+  position: absolute; /*the element is removed from the flow of the document and other elements will behave as 
+  if it’s not even there whilst all the other positional properties will work on it.*/
+  /* top and left has to be set, otherwise the fader would be not visible */
+  top: 0; /*Positions the fader to the top*/
   left: 0;
-  background-image: linear-gradient(to top, white, rgba(255, 255, 255, 0) 30%);
-  /* border: 1px solid black; */
+  background-image: linear-gradient(
+    to top,
+    white 5%,
+    rgba(255, 255, 255, 0) 40%
+  ); /*The 5% says that the first 5% are sollid white. after that until 40% the gradient will be active */
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
 }
 
 .author {
-  z-index: 2;
+  z-index: 1; /*z-Index puts the element in a specific layer. The highest Number is the very top*/
   font-size: 1rem;
   color: rgba(0, 0, 0, 0.5);
   position: absolute;
-  /* _order: 2px solid blue; */
   bottom: 10px;
   left: 10px;
 }
@@ -109,10 +109,8 @@ body {
   padding-bottom: 3px;
   border-radius: 3px;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   background-color: rgba(255, 255, 255, 0.598);
-
-  /* border: 2px solid salmon; */
 }
 
 /*.item-discription---------------------------------------------------------------*/
@@ -128,7 +126,7 @@ body {
 }
 
 .item-discription-text {
-  line-height: 1.5;
+  line-height: 1.5; /*seperates the lines from each other by a value of the text fontsize */
 }
 
 /*.item-detail-container---------------------------------------------------------------*/
@@ -143,14 +141,14 @@ body {
 /*.item-price-container---------------------------------------------------------------*/
 
 .item-price-container {
-  display: flex;
+  display: flex; /*display is set to flex because in this way its eayser to position the text / Box inside that container*/
   height: 35px;
   font-size: 15px;
   font-weight: bolder;
   background-color: var(--background-color-price);
   border-radius: 5px;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /*alignes content on the main axis*/
+  align-items: center; /*alignes items on the secoundary axis*/
 }
 /*.item-size-and-quantity-container---------------------------------------------------------------*/
 
@@ -158,22 +156,19 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  _border: 1px solid green;
-  _justify-content: space-between;
 }
 
 .item-size-container {
   display: flex;
   flex-direction: row;
-  width: 45px;
-  height: 20px;
+  width: 40px;
+  height: 10px;
   margin-top: 10px;
   margin-left: 12px;
   margin-bottom: 9px;
   padding: 5px;
   border-radius: 5px;
   background-color: var(--background-color-size);
-  /* border: 1px solid salmon; */
   align-items: center;
   justify-content: space-between;
 }
@@ -186,9 +181,7 @@ body {
   z-index: 10;
   width: 5px;
   height: 5px;
-  /* margin-right: 5px; */
   rotate: -45deg;
-  border-bottom-color: black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
 }
@@ -200,15 +193,14 @@ body {
 .item-quantity-container {
   display: flex;
   flex-direction: row;
-  width: 50px;
-  height: 20px;
+  width: 40px;
+  height: 10px;
   margin-top: 10px;
   margin-left: 12px;
   margin-bottom: 9px;
   padding: 5px;
   border-radius: 5px;
   background-color: var(--background-color-size);
-  /* border: 1px solid salmon; */
   align-items: center;
   justify-content: space-between;
 }
@@ -217,9 +209,7 @@ body {
   z-index: 10;
   width: 5px;
   height: 5px;
-  /* margin-right: 5px; */
   rotate: -45deg;
-  border-bottom-color: black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
 }
@@ -227,7 +217,8 @@ body {
 /*.item-color-container---------------------------------------------------------------*/
 
 .item-color-container {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row; /*Can be set but defoult is row*/
   align-items: center;
 }
 
@@ -255,13 +246,61 @@ body {
   border-radius: 50%;
 }
 
+.item-green-black-circle {
+  margin-left: 10px;
+  border-bottom: 10px solid var(--background-color-dark-green-circle);
+  border-left: 10px solid var(--background-color-dark-green-circle);
+  border-top: 10px solid var(--background-color-black-cicle);
+  border-right: 10px solid var(--background-color-black-cicle);
+  border-radius: 10px;
+  transform: rotate(45deg);
+}
+
+.item-blue-black-circle {
+  margin-left: 10px;
+  border-bottom: 10px solid var(--background-color-blue-circle);
+  border-left: 10px solid var(--background-color-blue-circle);
+  border-top: 10px solid var(--background-color-black-cicle);
+  border-right: 10px solid var(--background-color-black-cicle);
+  border-radius: 10px;
+  transform: rotate(45deg);
+}
+
+.item-purple-black-circle {
+  margin-left: 10px;
+  border-bottom: 10px solid var(--background-color-purple-circle);
+  border-left: 10px solid var(--background-color-purple-circle);
+  border-top: 10px solid var(--background-color-black-cicle);
+  border-right: 10px solid var(--background-color-black-cicle);
+  border-radius: 10px;
+  transform: rotate(45deg);
+}
+
+.item-red-white-circle {
+  margin-left: 10px;
+  border-bottom: 10px solid var(--background-color-red-circle);
+  border-left: 10px solid var(--background-color-red-circle);
+  border-top: 10px solid white;
+  border-right: 10px solid white;
+  border-radius: 10px;
+  transform: rotate(45deg);
+}
+
+.item-black-white-circle {
+  margin-left: 10px;
+  border-bottom: 10px solid var(--background-color-black-cicle);
+  border-left: 10px solid var(--background-color-black-cicle);
+  border-top: 10px solid white;
+  border-right: 10px solid white;
+  border-radius: 10px;
+  transform: rotate(45deg);
+}
 /*.item-cart-container---------------------------------------------------------------*/
 
 .item-cart-container {
   display: flex;
   height: 35px;
   font-size: 1.4rem;
-  /* font-weight: bold; */
   margin-top: 15px;
   background-color: var(--background-color-Button-add-to-cart);
   color: var(--color-button-text);
@@ -274,6 +313,6 @@ body {
 
 .task-img {
   max-width: 1200px;
-  display: block;
-  margin: auto;
+  display: block; /*Has to be set because it wont be centered otherwise*/
+  margin: auto; /**/
 }
